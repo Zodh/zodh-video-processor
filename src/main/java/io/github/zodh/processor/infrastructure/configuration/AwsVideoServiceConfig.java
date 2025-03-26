@@ -12,6 +12,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
+import software.amazon.awssdk.services.sqs.SqsClient;
 
 import java.net.URI;
 
@@ -27,7 +28,7 @@ public class AwsVideoServiceConfig {
     @Value("${spring.cloud.aws.credentials.session.token}")
     private String sessionToken;
     @Value("${video.status.update.queue-url}")
-    private String queueUrl;
+    public String queueUrl;
 
     @Bean
     public S3Client getClient() {
@@ -66,13 +67,13 @@ public class AwsVideoServiceConfig {
                 .build();
     }
 
-//    @Bean
-//    public SqsClient getSqsClient() {
-//        AwsSessionCredentials credentials = AwsSessionCredentials.create(accessKey, secretKey, sessionToken);
-//            return SqsClient.builder()
-//                    .region(Region.of(region))
-//                    .credentialsProvider(StaticCredentialsProvider.create(credentials))
-//                    .build();
-//    }
+    @Bean
+    public SqsClient getSqsClient() {
+        AwsSessionCredentials credentials = AwsSessionCredentials.create(accessKey, secretKey, sessionToken);
+            return SqsClient.builder()
+                    .region(Region.of(region))
+                    .credentialsProvider(StaticCredentialsProvider.create(credentials))
+                    .build();
+    }
 
 }

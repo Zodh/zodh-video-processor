@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 
 @Slf4j
 @Component
@@ -54,9 +55,11 @@ public class VideoFileManagerAWSAdapter implements VideoFileManagerGateway {
             messageToSend.put("fileId", fileId);
             messageToSend.put("status", status);
 
-            // TODO Arrumar pois não está enviando pra fila
-            awsVideoServiceConfig.sqsTemplate(awsVideoServiceConfig.sqsAsyncClient())
-                    .send(messageToSend.toString());
+            awsVideoServiceConfig.getSqsClient()
+                    .sendMessage(SendMessageRequest.builder()
+                            .queueUrl(awsVideoServiceConfig.queueUrl)
+                            .messageBody(messageToSend.toString())
+                            .build());
 
             // Log de confirmação
             log.info("Sent message with fileId: {} and status: {}", fileId, status);
