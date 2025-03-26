@@ -1,9 +1,9 @@
 package io.github.zodh.processor.core.application.gateway;
 
-import org.springframework.web.multipart.MultipartFile;
+import io.github.zodh.processor.core.domain.ExtractedFrames;
 
 public interface FramesProcessorGateway {
 
-    String extractFrames(MultipartFile file, String zipFileName, int intervalSeconds);
+    ExtractedFrames extractFrames(String path, String zipFileName, int intervalSeconds);
 
 }

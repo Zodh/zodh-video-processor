@@ -1,11 +1,11 @@
 package io.github.zodh.processor.infrastructure.adapters;
 
 import io.github.zodh.processor.core.application.gateway.FramesProcessorGateway;
+import io.github.zodh.processor.core.domain.ExtractedFrames;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -18,14 +18,8 @@ import static javax.imageio.ImageIO.write;
 @Component
 public class FramesProcessorAdapter implements FramesProcessorGateway {
 
-    private final VideoFileManagerAWSAdapter videoFileManagerAWSAdapter;
-
-    public FramesProcessorAdapter(VideoFileManagerAWSAdapter videoFileManagerAWSAdapter) {
-        this.videoFileManagerAWSAdapter = videoFileManagerAWSAdapter;
-    }
-
-    public String extractFrames(MultipartFile file, String zipFileName, int intervalSeconds) {
-        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(file.getInputStream());
+    public ExtractedFrames extractFrames(String path, String zipFileName, int intervalSeconds) {
+        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(path);
              var arrayOutputStream = new ByteArrayOutputStream();
              var zipOutputStream = new ZipOutputStream(arrayOutputStream);
              var frameConverter = new Java2DFrameConverter()) {
@@ -54,8 +48,7 @@ public class FramesProcessorAdapter implements FramesProcessorGateway {
 
             grabber.stop();
             zipOutputStream.finish();
-            return videoFileManagerAWSAdapter.sendZipToS3(zipFileName, arrayOutputStream.toByteArray());
-
+            return new ExtractedFrames(zipFileName, arrayOutputStream.toByteArray());
         } catch (IOException e) {
             return null;
         } catch (Exception e) {
