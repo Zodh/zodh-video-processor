@@ -7,11 +7,9 @@ import java.io.File;
 
 public interface VideoFileManagerGateway {
 
-    String sendZipToS3(ExtractedFrames extractedFrames);
+    String uploadFrames(ExtractedFrames extractedFrames);
+    void sendStatusUpdate(String fileId, VideoProcessingStatusEnum status, String url);
+    File downloadVideo(String fileId);
+    void deleteVideo(String fileId);
 
-    void sendStatusUpdateToSQS(String fileId, VideoProcessingStatusEnum status, String url);
-
-    File downloadFile(String key);
-
-    void deleteFileFromS3(String key);
 }
