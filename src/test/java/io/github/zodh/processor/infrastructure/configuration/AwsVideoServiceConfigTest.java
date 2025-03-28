@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.util.ReflectionTestUtils;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -30,13 +31,12 @@ class AwsVideoServiceConfigTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
         awsVideoServiceConfig = new AwsVideoServiceConfig();
-        awsVideoServiceConfig.setAccessKey("mock-access-key");
-        awsVideoServiceConfig.setSecretKey("mock-secret-key");
-        awsVideoServiceConfig.setSessionToken("mock-token");
-        awsVideoServiceConfig.setRegion("mock-region");
-        awsVideoServiceConfig.queueUrl = "mock-queue";
+        ReflectionTestUtils.setField(awsVideoServiceConfig, "region", "mock-region");
+        ReflectionTestUtils.setField(awsVideoServiceConfig, "accessKey", "mock-access-key");
+        ReflectionTestUtils.setField(awsVideoServiceConfig, "secretKey", "mock-secret-key");
+        ReflectionTestUtils.setField(awsVideoServiceConfig, "sessionToken", "mock-token");
+        ReflectionTestUtils.setField(awsVideoServiceConfig, "queueUrl", "mock-queue");
     }
 
     @Test

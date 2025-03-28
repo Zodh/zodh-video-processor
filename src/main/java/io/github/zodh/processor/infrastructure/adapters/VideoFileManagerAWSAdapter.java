@@ -117,7 +117,7 @@ public class VideoFileManagerAWSAdapter implements VideoFileManagerGateway {
       }
 
       SendMessageRequest videoStatusUpdateMessage = SendMessageRequest.builder()
-          .queueUrl(awsVideoServiceConfig.queueUrl)
+          .queueUrl(awsVideoServiceConfig.getQueueUrl())
           .messageBody(messageToSend.toString())
           .build();
       awsVideoServiceConfig.getSqsClient().sendMessage(videoStatusUpdateMessage);

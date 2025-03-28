@@ -124,7 +124,7 @@ class VideoFileManagerAWSAdapterTest {
     @Test
     void shouldSendStatusUpdateWithoutUrlSuccessfully() {
         SendMessageRequest videoStatusUpdateMessage = SendMessageRequest.builder()
-                .queueUrl(awsVideoServiceConfig.queueUrl)
+                .queueUrl(awsVideoServiceConfig.getQueueUrl())
                 .messageBody("message")
                 .build();
 
@@ -137,7 +137,7 @@ class VideoFileManagerAWSAdapterTest {
     @Test
     void shouldSendStatusUpdateWithUrlSuccessfully() {
         SendMessageRequest videoStatusUpdateMessage = SendMessageRequest.builder()
-                .queueUrl(awsVideoServiceConfig.queueUrl)
+                .queueUrl(awsVideoServiceConfig.getQueueUrl())
                 .messageBody("message")
                 .build();
 

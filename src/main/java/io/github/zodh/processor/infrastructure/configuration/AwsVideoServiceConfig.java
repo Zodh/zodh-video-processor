@@ -4,7 +4,6 @@ import io.awspring.cloud.sqs.listener.QueueNotFoundStrategy;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import java.net.URI;
 
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,24 +19,20 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 @Configuration
 public class AwsVideoServiceConfig {
 
-  @Setter
   @Value("${spring.cloud.aws.region.static}")
   private String region;
 
-  @Setter
   @Value("${spring.cloud.aws.credentials.access-key}")
   private String accessKey;
 
-  @Setter
   @Value("${spring.cloud.aws.credentials.secret-key}")
   private String secretKey;
 
-  @Setter
   @Value("${spring.cloud.aws.credentials.session.token}")
   private String sessionToken;
 
   @Value("${video.status.update.queue-url}")
-  public String queueUrl;
+  private String queueUrl;
 
   @Bean
   public S3Client getClient() {
@@ -87,6 +82,10 @@ public class AwsVideoServiceConfig {
         .region(Region.of(region))
         .credentialsProvider(StaticCredentialsProvider.create(credentials))
         .build();
+  }
+
+  public String getQueueUrl() {
+    return this.queueUrl;
   }
 
 }
