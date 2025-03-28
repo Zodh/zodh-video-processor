@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.eventnotifications.s3.model.S3EventNotification;
@@ -129,7 +128,6 @@ public class VideoFileManagerAWSAdapter implements VideoFileManagerGateway {
     }
   }
 
-  @Transactional
   @SqsListener("${video.awaiting.processing.queue-name}")
   public void receiveVideoAwaitingProcessing(Message<String> queueMessage) {
     try {
