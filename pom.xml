@@ -239,10 +239,9 @@
                         <goals>
                             <goal>check</goal>
                         </goals>
-                        <id>check-unit-test</id>
-                        <phase>test</phase>
+                        <id>check-unit-tests</id>
+                        <phase>verify</phase>
                     </execution>
-
                 </executions>
                 <groupId>org.jacoco</groupId>
                 <version>${jacoco-maven-plugin.version}</version>
