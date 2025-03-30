@@ -36,7 +36,7 @@ class AwsVideoServiceConfigTest {
         ReflectionTestUtils.setField(awsVideoServiceConfig, "accessKey", "mock-access-key");
         ReflectionTestUtils.setField(awsVideoServiceConfig, "secretKey", "mock-secret-key");
         ReflectionTestUtils.setField(awsVideoServiceConfig, "sessionToken", "mock-token");
-        ReflectionTestUtils.setField(awsVideoServiceConfig, "queueUrl", "mock-queue");
+        ReflectionTestUtils.setField(awsVideoServiceConfig, "queueUrl", "http://example.com");
     }
 
     @Test
@@ -85,6 +85,18 @@ class AwsVideoServiceConfigTest {
         SqsClient sqsClient = awsVideoServiceConfig.getSqsClient();
 
         assertNotNull(sqsClient);
+    }
+
+    @Test
+    void testSqsAsyncClient() {
+        var mockCredentials = AwsSessionCredentials
+                .create("mock-access-key", "mock-secret-key", "mock-token");
+
+        when(awsCredentialsProvider.resolveCredentials()).thenReturn(mockCredentials);
+
+        SqsAsyncClient sqsTemplate = awsVideoServiceConfig.sqsAsyncClient();
+
+        assertNotNull(sqsTemplate);
     }
 }
 
