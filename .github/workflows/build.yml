@@ -1,0 +1,25 @@
+name: "Build e teste"
+
+on:
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "Clonando o projeto"
+      uses: actions/checkout@v4
+
+    
+    - name: "Incluindo o JDK 21"
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: "Buildando o projeto"
+      run: mvn -B install -f pom.xml
