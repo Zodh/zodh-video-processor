@@ -63,6 +63,15 @@ jobs:
       - name: "Linkando EKS com K8S do runner"
         run: aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.REGION }}
 
+      - name: Kube Aws Secrets
+        run: |
+          kubectl delete secret zodh-video-processor-secret --ignore-not-found
+          kubectl create secret generic zodh-video-processor-secret \
+             --from-literal=AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
+             --from-literal=AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+             --from-literal=AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }} \
+             --from-literal=AWS_REGION=${{ secrets.AWS_REGION }}
+
       - name: "Aplicando deployment e service"
         run: |
           pwd
