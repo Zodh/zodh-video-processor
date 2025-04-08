@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zodh-processor
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: zodh-processor
+  template:
+    metadata:
+      labels:
+        app: zodh-processor
+    spec:
+      containers:
+        - name: zodh-processor
+          image: zodh/zodh-video-processor:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: VIDEO_BUCKET_ZIP_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: zodh-secret
+                  key: VIDEO_BUCKET_ZIP_NAME
+            - name: VIDEO_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: zodh-secret
+                  key: VIDEO_BUCKET_NAME
+            - name: VIDEO_AWAITING_PROCESSING_QUEUE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: zodh-secret
+                  key: VIDEO_AWAITING_PROCESSING_QUEUE_NAME
+            - name: VIDEO_STATUS_UPDATE_QUEUE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: zodh-secret
+                  key: VIDEO_STATUS_UPDATE_QUEUE_URL
