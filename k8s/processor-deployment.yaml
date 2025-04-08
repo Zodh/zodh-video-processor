@@ -38,3 +38,23 @@ spec:
                 secretKeyRef:
                   name: zodh-secret
                   key: VIDEO_STATUS_UPDATE_QUEUE_URL
+            - name: aws_region
+              valueFrom:
+                secretKeyRef:
+                  name: zodh-secret
+                  key: aws_region
+            - name: aws_access_key_id
+              valueFrom:
+                secretKeyRef:
+                  name: zodh-secret
+                  key: aws_access_key_id
+            - name: aws_secret_access_key
+              valueFrom:
+                secretKeyRef:
+                  name: zodh-secret
+                  key: aws_secret_access_key
+            - name: aws_session_token
+              valueFrom:
+                secretKeyRef:
+                  name: zodh-secret
+                  key: aws_session_token
