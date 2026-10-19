@@ -45,7 +45,7 @@
         <software.amazon.awssdk.s3.version>2.31.6</software.amazon.awssdk.s3.version>
 
         <!-- Other Dependencies -->
-        <javacv.version>1.5.9</javacv.version>
+        <javacv.version>1.5.14</javacv.version>
         <ffmpeg.version>6.0-1.5.9</ffmpeg.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <io.commons.version>2.18.0</io.commons.version>
